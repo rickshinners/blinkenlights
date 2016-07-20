@@ -13,7 +13,11 @@ def create_bibliopixel_strip(config):
     else:
         raise 'Unknown driver_type: {0}'.format(driver_type)
     bibliopixel_base_thing = LEDStrip(driver)
-    return IndicatorStrip(bibliopixel_base_thing, config['pixel_count'], is_reversed=config.get('is_reversed', False))
+    return IndicatorStrip(bibliopixel_base_thing,
+                          config['pixel_count'],
+                          is_reversed=config.get('is_reversed', False),
+                          is_disabled=config.get('is_disabled', False),
+                          disabled_pixels=config.get('disabled_pixels', None))
 
 
 def load_strips(config):
