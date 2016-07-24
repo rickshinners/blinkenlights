@@ -22,6 +22,6 @@ def create_bibliopixel_strip(config):
 
 def load_strips(config):
     strips = {}
-    for strip_config in config:
-        strips[strip_config['endpoint']] = create_bibliopixel_strip(strip_config)
+    for key in config:
+        strips[key] = create_bibliopixel_strip(config[key])
     return strips

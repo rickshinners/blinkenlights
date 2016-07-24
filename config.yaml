@@ -1,10 +1,10 @@
 # Comment
 strips:
--
-    endpoint: pixels
+  pixels:
     pixel_count: 10
     driver_type: Visualizer
--
-    endpoint: others
+  others:
     pixel_count: 12
     driver_type: Dummy
+    is_disabled: False
+    disabled_pixels: 1, 2, 10-11
