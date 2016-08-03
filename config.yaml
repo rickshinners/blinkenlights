@@ -8,3 +8,24 @@ strips:
     driver_type: Dummy
     is_disabled: False
     disabled_pixels: 1, 2, 10-11
+
+runners:
+#  first:
+#    plugin_type: jira
+#    jira_url: http://localhost:8080/api
+#    target_strip: pixels
+#    led: 0
+  test1:
+    plugin_type: TestPlugin
+    target_strip: pixels
+    led: 2
+    schedule:
+      type: cron
+      second: "*/2"
+  test2:
+    plugin_type: TestPlugin
+    target_strip: pixels
+    led: 1
+    schedule:
+      type: interval
+      minutes: 1
