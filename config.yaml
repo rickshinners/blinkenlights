@@ -8,6 +8,9 @@ strips:
     driver_type: Dummy
     is_disabled: False
     disabled_pixels: 1, 2, 10-11
+#  p:
+#    pixel_count: 30
+#    driver_type: APA102
 
 runners:
 #  first:
