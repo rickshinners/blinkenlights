@@ -6,7 +6,7 @@ class TestPlugin(PluginBase):
         print "TestPlugin.__init__()"
         self.strip = config['target_strip']
         self.led = config['led']
-        super(PluginBase, self).__init__()
+        super(TestPlugin, self).__init__()
 
     def run(self):
         print "TestPlugin.run()"

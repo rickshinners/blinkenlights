@@ -1,4 +1,5 @@
 from TestPlugin import TestPlugin
+from JenkinsPlugin import JenkinsPlugin
 
 
 def load_plugins(config, scheduler):
@@ -40,5 +41,7 @@ def _load_plugin_type(config):
     type_name = config['plugin_type']
     if type_name == 'TestPlugin':
         return TestPlugin(config)
+    elif type_name == 'jenkins':
+        return JenkinsPlugin(config)
     else:
         raise Exception("Unknown plugin type: %s" % type_name)
