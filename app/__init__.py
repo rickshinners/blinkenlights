@@ -14,4 +14,4 @@ scheduler = get_scheduler()
 
 from . import api_views
 
-load_plugins(config['runners'], scheduler)
+load_plugins(config['runners'], scheduler, api_views.set_pixel)

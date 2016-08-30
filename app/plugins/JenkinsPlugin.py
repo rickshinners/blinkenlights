@@ -27,9 +27,9 @@ def _add_jenkins_api(url):
 
 
 class JenkinsPlugin(SingleLedPluginBase):
-    def __init__(self, config):
+    def __init__(self, config, set_pixel):
         print "JenkinsPlugin.__init__()"
-        super(JenkinsPlugin, self).__init__(config)
+        super(JenkinsPlugin, self).__init__(config, set_pixel)
         self.url = config['job_url']
 
     def run(self):
