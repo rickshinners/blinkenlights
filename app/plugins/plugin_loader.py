@@ -1,5 +1,5 @@
 from TestPlugin import TestPlugin
-from JenkinsPlugin import JenkinsPlugin
+from JenkinsPlugin import JenkinsPlugin, JenkinsHistoryPlugin
 
 
 def load_plugins(config, scheduler, set_pixel):
@@ -45,5 +45,7 @@ def _load_plugin_type(config, set_pixel):
         return TestPlugin(config, set_pixel)
     elif type_name == 'jenkins':
         return JenkinsPlugin(config, set_pixel)
+    elif type_name == 'jenkins_history':
+        return JenkinsHistoryPlugin(config, set_pixel)
     else:
         raise Exception("Unknown plugin type: %s" % type_name)

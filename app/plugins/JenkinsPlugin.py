@@ -1,4 +1,5 @@
 from SingleLedPluginBase import SingleLedPluginBase
+from PluginBase import PluginBase
 import json
 import requests
 
@@ -14,6 +15,16 @@ def _get_rgb_from_jenkins_color(jenkins_color):
     if jenkins_color.startswith('blue'):
         return 0, 128, 0
     return 0, 0, 0
+
+
+def _get_rgb_from_jenkins_building_and_result(building, result):
+    if building:
+        return 0, 0, 128
+    if result == 'SUCCESS':
+        return 0, 128, 0
+    if result == 'UNSTABLE':
+        return 128, 128, 0
+    return 255, 0, 0
 
 
 def _remove_secure_protocol(url):
@@ -38,3 +49,27 @@ class JenkinsPlugin(SingleLedPluginBase):
         job_data = json.loads(requests.get(jenkins_url).text)
         r, g, b = _get_rgb_from_jenkins_color(job_data['color'])
         self.set_led(r, g, b)
+
+
+class JenkinsHistoryPlugin(PluginBase):
+    def __init__(self, config, set_pixel):
+        print "JenkinsHistoryPlugin.__init__()"
+        super(JenkinsHistoryPlugin, self).__init__(set_pixel)
+        self.url = config['job_url']
+        self.count = config.get('count', 1)
+        self.start_pixel = config['start_pixel']
+        self.target_strip = config['target_strip']
+
+    def run(self):
+        print "JenkinsHistoryPlugin.run()"
+        jenkins_url = _remove_secure_protocol(_add_jenkins_api(self.url))
+        job_data = json.loads(requests.get(jenkins_url).text)
+        job_urls = [x['url'] for x in job_data['builds']]
+        for i in range(self.count):
+            self._set_history_pixel(job_urls[i], self.start_pixel + i)
+
+    def _set_history_pixel(self, url, led):
+        jenkins_url = _remove_secure_protocol(_add_jenkins_api(url))
+        job_data = json.loads(requests.get(jenkins_url).text)
+        r, g, b = _get_rgb_from_jenkins_building_and_result(job_data['building'], job_data['result'])
+        self.set_led(self.target_strip, led, r, g, b)
