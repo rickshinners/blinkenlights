@@ -9,7 +9,7 @@ import logging
 
 
 config = yaml.load(file('config.yaml', mode='r'))
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='', static_folder='static')
 setup_loggers(app.logger, logging.getLogger('werkzeug'), logging.getLogger('apscheduler'))
 api = Api(app)
 strips = load_strips(config['strips'])
