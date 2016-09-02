@@ -5,7 +5,12 @@ import logging
 
 def load_plugins(config, scheduler, set_pixel):
     logger = logging.getLogger(__name__)
+    if config is None or len(config) == 0:
+        logger.info("No plugins configured")
+        return
+
     for plugin_name in config:
+        logger.info("Loading plugin: %s" % plugin_name)
         try:
             plugin_config = config[plugin_name]
             plugin = _load_plugin_type(plugin_config, set_pixel)

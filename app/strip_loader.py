@@ -3,6 +3,7 @@ from bibliopixel.drivers.dummy_driver import DriverDummy
 from bibliopixel.drivers.APA102 import DriverAPA102, ChannelOrder
 from bibliopixel.led import LEDStrip
 from ledstrip import IndicatorStrip
+import logging
 
 
 def create_bibliopixel_strip(config):
@@ -24,7 +25,12 @@ def create_bibliopixel_strip(config):
 
 
 def load_strips(config):
+    logger = logging.getLogger(__name__)
     strips = {}
-    for key in config:
-        strips[key] = create_bibliopixel_strip(config[key])
+    if config is None or len(config) == 0:
+        logger.info("No strips configured")
+    else:
+        for key in config:
+            logger.info("Loading strip: %s" % key)
+            strips[key] = create_bibliopixel_strip(config[key])
     return strips
