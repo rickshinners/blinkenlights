@@ -1,8 +1,10 @@
 from TestPlugin import TestPlugin
 from JenkinsPlugin import JenkinsPlugin, JenkinsHistoryPlugin
+import logging
 
 
 def load_plugins(config, scheduler, set_pixel):
+    logger = logging.getLogger(__name__)
     for plugin_name in config:
         try:
             plugin_config = config[plugin_name]
@@ -35,8 +37,7 @@ def load_plugins(config, scheduler, set_pixel):
             else:
                 raise Exception("Unknown schedule type: %s" % schedule_type)
         except Exception, e:
-            print "Could not load plugin: %s" % plugin_name
-            print e
+            logger.exception("Could not load plugin: %s" % plugin_name)
 
 
 def _load_plugin_type(config, set_pixel):

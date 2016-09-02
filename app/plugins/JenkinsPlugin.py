@@ -2,6 +2,7 @@ from SingleLedPluginBase import SingleLedPluginBase
 from PluginBase import PluginBase
 import json
 import requests
+import logging
 
 
 def _get_rgb_from_jenkins_color(jenkins_color):
@@ -39,12 +40,12 @@ def _add_jenkins_api(url):
 
 class JenkinsPlugin(SingleLedPluginBase):
     def __init__(self, config, set_pixel):
-        print "JenkinsPlugin.__init__()"
         super(JenkinsPlugin, self).__init__(config, set_pixel)
+        self.logger = logging.getLogger(__name__)
         self.url = config['job_url']
 
     def run(self):
-        print "JenkinsPlugin.run()"
+        self.logger.debug("run()")
         jenkins_url = _remove_secure_protocol(_add_jenkins_api(self.url))
         job_data = json.loads(requests.get(jenkins_url).text)
         r, g, b = _get_rgb_from_jenkins_color(job_data['color'])
@@ -53,15 +54,15 @@ class JenkinsPlugin(SingleLedPluginBase):
 
 class JenkinsHistoryPlugin(PluginBase):
     def __init__(self, config, set_pixel):
-        print "JenkinsHistoryPlugin.__init__()"
         super(JenkinsHistoryPlugin, self).__init__(set_pixel)
+        self.logger = logging.getLogger(__name__)
         self.url = config['job_url']
         self.count = config.get('count', 1)
         self.start_pixel = config['start_pixel']
         self.target_strip = config['target_strip']
 
     def run(self):
-        print "JenkinsHistoryPlugin.run()"
+        self.logger.debug("run()")
         jenkins_url = _remove_secure_protocol(_add_jenkins_api(self.url))
         job_data = json.loads(requests.get(jenkins_url).text)
         job_urls = [x['url'] for x in job_data['builds']]

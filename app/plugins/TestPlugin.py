@@ -1,13 +1,15 @@
 from PluginBase import PluginBase
+import logging
 
 
 class TestPlugin(PluginBase):
     def __init__(self, config, set_pixel):
-        print "TestPlugin.__init__()"
+        super(TestPlugin, self).__init__(set_pixel)
+        self.logger = logging.getLogger(__name__)
+        self.logger.debug("__init__()")
         self.strip = config['target_strip']
         self.led = config['led']
-        super(TestPlugin, self).__init__(set_pixel)
 
     def run(self):
-        print "TestPlugin.run()"
+        self.logger.debug("run()")
         self.set_led(self.strip, self.led, 128, 196, 212)

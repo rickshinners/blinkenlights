@@ -4,11 +4,14 @@ import yaml
 from .strip_loader import load_strips
 from .scheduler import get_scheduler
 from plugins.plugin_loader import load_plugins
+from .logs import setup_loggers
+import logging
 
 
-app = Flask(__name__)
-api = Api(app)
 config = yaml.load(file('config.yaml', mode='r'))
+app = Flask(__name__)
+setup_loggers(app.logger, logging.getLogger('werkzeug'))
+api = Api(app)
 strips = load_strips(config['strips'])
 scheduler = get_scheduler()
 
