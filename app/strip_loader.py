@@ -4,6 +4,10 @@ from bibliopixel.drivers.APA102 import DriverAPA102, ChannelOrder
 from bibliopixel.led import LEDStrip
 from ledstrip import IndicatorStrip
 import logging
+import yaml
+from app import strips, scheduler
+from plugins.plugin_loader import load_plugins
+from . import set_pixel
 
 
 def create_bibliopixel_strip(config):
@@ -26,11 +30,19 @@ def create_bibliopixel_strip(config):
 
 def load_strips(config):
     logger = logging.getLogger(__name__)
-    strips = {}
+    new_strips = {}
     if config is None or len(config) == 0:
         logger.info("No strips configured")
     else:
         for key in config:
             logger.info("Loading strip: %s" % key)
-            strips[key] = create_bibliopixel_strip(config[key])
-    return strips
+            new_strips[key] = create_bibliopixel_strip(config[key])
+    strips.update(new_strips)
+
+
+def load_configuration_file(configuration_filename):
+    logger = logging.getLogger(__name__)
+    logger.info("Reloading configuration file: %s" % configuration_filename)
+    config = yaml.load(file(configuration_filename, mode='r'))
+    load_strips(config['strips'])
+    load_plugins(config['runners'], scheduler, set_pixel)

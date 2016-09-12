@@ -1,8 +1,9 @@
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
+__scheduler = BackgroundScheduler()
+__scheduler.start()
+
 
 def get_scheduler():
-    scheduler = BackgroundScheduler()
-    scheduler.start()
-    return scheduler
+    return __scheduler
