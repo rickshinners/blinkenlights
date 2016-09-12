@@ -10,7 +10,7 @@ from plugins.plugin_loader import load_plugins
 from . import set_pixel
 
 
-def create_bibliopixel_strip(config):
+def _create_bibliopixel_strip(config):
     driver_type = config['driver_type']
     if driver_type == 'Dummy':
         driver = DriverDummy(num=config['pixel_count'])
@@ -28,7 +28,7 @@ def create_bibliopixel_strip(config):
                           disabled_pixels=config.get('disabled_pixels', None))
 
 
-def load_strips(config):
+def _load_strips(config):
     logger = logging.getLogger(__name__)
     new_strips = {}
     if config is None or len(config) == 0:
@@ -36,7 +36,7 @@ def load_strips(config):
     else:
         for key in config:
             logger.info("Loading strip: %s" % key)
-            new_strips[key] = create_bibliopixel_strip(config[key])
+            new_strips[key] = _create_bibliopixel_strip(config[key])
     strips.update(new_strips)
 
 
@@ -44,5 +44,5 @@ def load_configuration_file(configuration_filename):
     logger = logging.getLogger(__name__)
     logger.info("Reloading configuration file: %s" % configuration_filename)
     config = yaml.load(file(configuration_filename, mode='r'))
-    load_strips(config['strips'])
+    _load_strips(config['strips'])
     load_plugins(config['runners'], scheduler, set_pixel)

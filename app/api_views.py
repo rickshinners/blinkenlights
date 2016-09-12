@@ -1,6 +1,6 @@
 from . import strips, app, set_pixel
 from flask_restful import Resource, reqparse, Api
-from strip_loader import load_configuration_file
+from config_loader import load_configuration_file
 
 
 class Pixel(Resource):

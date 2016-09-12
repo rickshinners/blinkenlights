@@ -12,7 +12,7 @@ strips = {}
 def set_pixel(strip_name, index, r, g, b):
     strips[strip_name].set(index, r, g, b)
 
-from .strip_loader import load_configuration_file
+from .config_loader import load_configuration_file
 from . import api_views
 
 load_configuration_file('config.yaml')
