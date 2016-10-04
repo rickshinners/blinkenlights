@@ -5,6 +5,10 @@ import logging
 
 def load_plugins(config, scheduler, set_pixel):
     logger = logging.getLogger(__name__)
+
+    logger.info("Stopping any existing jobs")
+    scheduler.remove_all_jobs()
+
     if config is None or len(config) == 0:
         logger.info("No plugins configured")
         return

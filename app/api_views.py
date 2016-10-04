@@ -1,9 +1,6 @@
-from . import api, strips
-from flask_restful import Resource, reqparse
-
-
-def set_pixel(strip_name, index, r, g, b):
-    strips[strip_name].set(index, r, g, b)
+from . import strips, app, set_pixel
+from flask_restful import Resource, reqparse, Api
+from config_loader import load_configuration_file
 
 
 class Pixel(Resource):
@@ -26,5 +23,13 @@ class Pixels(Resource):
         return strips[strip_name].get_config_all()
 
 
+class Reload(Resource):
+    def get(self):
+        load_configuration_file('config.yaml')
+        return "Success", 200
+
+api = Api(app)
+
 api.add_resource(Pixel, '/strips/<string:strip_name>/<int:index>')
 api.add_resource(Pixels, '/strips/<string:strip_name>', '/strips/<string:strip_name>/')
+api.add_resource(Reload, '/reload')
