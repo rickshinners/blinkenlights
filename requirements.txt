@@ -1,0 +1,6 @@
+APScheduler
+BiblioPixel
+Flask
+Flask-RESTful
+PyYAML
+requests
